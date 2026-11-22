@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentStatus;
 use App\Enums\TransactionStatus;
 use App\Enums\TransactionType;
+use App\Exceptions\TransactionRuleException;
 use Database\Factories\MembershipTransactionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -65,5 +67,32 @@ class MembershipTransaction extends Model
     public function isExpired(): bool
     {
         return $this->expires_on?->isPast() ?? false;
+    }
+
+    public function getRemainingBalanceAttribute(): float
+    {
+        $succeeded = $this->relationLoaded('payments')
+            ? $this->payments->where('status', PaymentStatus::Succeeded)->sum('amount')
+            : $this->payments()->where('status', PaymentStatus::Succeeded)->sum('amount');
+
+        return round(max(0, (float) $this->amount_due - (float) $succeeded), 2);
+    }
+
+    public function approve(): void
+    {
+        if ($this->status !== TransactionStatus::Paid) {
+            throw new TransactionRuleException('Only Paid transactions can be approved.');
+        }
+
+        $this->update(['status' => TransactionStatus::Approved]);
+    }
+
+    public function cancel(): void
+    {
+        if ($this->status !== TransactionStatus::Pending) {
+            throw new TransactionRuleException('Only Pending transactions can be cancelled.');
+        }
+
+        $this->update(['status' => TransactionStatus::Cancelled]);
     }
 }
