@@ -1,0 +1,7 @@
+App\Models\User::count();
+App\Models\Member::count();
+App\Models\MembershipCategory::count();
+App\Models\MembershipLevel::count();
+App\Models\MembershipTransaction::count();
+App\Models\User::where('email', 'admin@axiom.test')->first();
+App\Models\Member::with(['category', 'level'])->first();
