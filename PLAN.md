@@ -60,6 +60,20 @@ Tick the box only when the proof has actually been run or shown.
 
 ---
 
+## 2b. Design philosophies
+
+Full rules are in `AI_GUARDRAILS.md` section 4b. Summary and how to check each:
+
+| Principle | In this project | Rubric row | Quick check |
+| --- | --- | --- | --- |
+| **DRY** | Status/type/method enums; shared Form Request rules; Blade components for badge, field, flash, table, empty state; model scopes; one formatting helper | Code quality (5) | Search for a status string like `'Paid'` outside the enum; look for any Blade block pasted twice |
+| **KISS** | Boring Laravel defaults; only `TransactionService` and `PaymentGateway` as abstractions; small single-purpose methods | Code quality (5), and it protects the timebox | Can a teammate explain each controller action in 30 seconds? |
+| **WYSIWYG** | Screen = database = printout: confirmation matches what's saved, receipt matches the transaction page, totals come from the DB, blocked actions say why, forms keep input on error | Interface (10), Transaction processing (20) | Compare dashboard count, DB count, and receipt amounts; print preview vs. screen |
+
+When they conflict: **rubric correctness > KISS > DRY > polish.** If extracting a component would take longer than copying it once, copy it once and extract on the second repeat.
+
+---
+
 ## 3. Ownership (prevents merge conflicts)
 
 | | Person A | Person B |
@@ -414,8 +428,14 @@ PASS / PARTIAL / FAIL, the specific evidence (file and behavior you
 actually verified, not assumptions), and the smallest fix for anything
 not PASS. Flag any code that violates the guardrails (business logic in
 Blade, missing Form Request, duplicated code, hard delete, missing
-validation). Do not praise. Do not suggest new features. If you couldn't
-verify something, say "unverified".
+validation). Then run a principle scan and list concrete findings with
+file names: DRY (repeated status strings, duplicated Blade blocks or
+validation rules, repeated queries that should be scopes), KISS
+(unnecessary abstractions, long or deeply nested methods), WYSIWYG
+(anything shown on screen or in the receipt that differs from what is
+stored, hard-coded totals, blocked actions with no explanation, forms
+that lose input on error). Do not praise. Do not suggest new features.
+If you couldn't verify something, say "unverified".
 ```
 
 ---

@@ -60,6 +60,35 @@ Roles or permissions beyond a single admin Â· member login/self-service portal Â
 - **Schema is frozen after the Phase 1 gate.** Don't edit migrations casually. If a change is truly needed, say so and wait for both team members to agree, then rebuild with `migrate:fresh --seed`.
 - Every migration must have a working `down()`.
 
+## 4b. Design philosophies (apply to every task)
+
+**Priority when they conflict:** rubric correctness > KISS > DRY > polish.
+
+### DRY: Don't Repeat Yourself (serves *Code quality*)
+- One source of truth per rule. Statuses, transaction types, and payment methods are PHP enums (e.g. `TransactionStatus`), never string literals scattered across controllers and Blade.
+- Store and Update Form Requests share their rules (base class, trait, or a shared `rules()` method).
+- Repeated markup becomes a Blade component the **second** time it appears: form field, status badge, flash message, table shell, empty state, page header.
+- Repeated query logic becomes a model scope (`active()`, `search()`, `expired()`, `withBalance()`).
+- Money, date, and reference-number formatting goes through one helper or accessor, never inline.
+- Colors, fonts, and spacing come only from `DESIGN.md` tokens.
+- Don't abstract before the second repetition. Three similar lines beat a premature abstraction (that's KISS).
+
+### KISS: Keep It Simple (serves all rows, and the timebox)
+- Choose the most boring Laravel-standard solution: resource controllers, Eloquent, Blade, Form Requests.
+- The only abstractions budgeted are `TransactionService` and the `PaymentGateway` interface. No repositories, DTOs, event buses, CQRS, or custom base classes beyond what DRY above requires.
+- One method does one thing. If describing it needs "and", split it. Use early returns; no more than two levels of nesting.
+- If two solutions satisfy the same rubric row, pick the one with fewer files and fewer lines.
+- Test: *can a classmate understand this in 30 seconds?* You'll have to explain it during the demo.
+
+### WYSIWYG: What You See Is What You Get (serves *Interface* and *Transaction processing*)
+Applied to this app: the screen, the database, and the printout must all agree.
+- What the user is shown is what gets stored. Confirmation summaries (amount, level, dates, reference) render from the same data that is saved; the amount on the Pay button is the amount recorded.
+- The printable receipt uses the same data and view as the on-screen transaction page. The print stylesheet may hide navigation and buttons but must never change values.
+- Status badges, balances, and dashboard totals are always derived from the database, never hard-coded or stale. `data-count-to` equals the server-rendered number.
+- No hidden state: when a rule blocks an action, the UI says why (e.g. Approve is disabled with "Requires full payment", and the server still enforces it).
+- Forms keep the user's input after a validation failure (`old()`).
+- Money-affecting or irreversible actions (record payment, cancel, deactivate) show a clear confirmation step before committing.
+
 ## 5. Payments: simulated gateway only
 - Implement the `PaymentGateway` interface with `SimulatedGateway` as specified in `PLAN.md` section 6.
 - **Never request, validate, log, or store card numbers, CVVs, or any real payment credentials.** The fake checkout has only a method selector and a "simulate outcome" selector.
@@ -90,6 +119,7 @@ Run and report the output of:
 2. `php artisan route:list` (check names and methods)
 3. The relevant demo steps from `PLAN.md` section 10
 4. The rubric audit prompt from `PLAN.md` section 8
+5. A principle scan: search for repeated status strings, duplicated Blade blocks, duplicated validation rules, logic in Blade, and anything over-engineered (DRY / KISS / WYSIWYG, section 4b)
 
 ## 9. Time guard
 Each phase has a timebox in `PLAN.md`. If you're asked to do something that would clearly exceed it, say so and propose the cut from `PLAN.md` section 9. Never trade a rubric-scored feature for polish.
@@ -100,4 +130,5 @@ Each phase has a timebox in `PLAN.md`. If you're asked to do something that woul
 3. **Code / commands**
 4. **Verification:** what was run, what output, what's unverified
 5. **Rubric check:** per affected criterion, PASS / PARTIAL / UNVERIFIED
-6. **Risks or decisions needed from the humans**
+6. **Principle check:** one line each for DRY, KISS, WYSIWYG (or "n/a")
+7. **Risks or decisions needed from the humans**
