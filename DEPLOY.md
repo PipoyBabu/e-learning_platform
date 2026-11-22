@@ -1,4 +1,4 @@
-# Deploying to InfinityFree: Puihaha Membership System
+# Deploying to InfinityFree: Axiom Membership System
 
 **Timebox:** 60 minutes, hard stop at 90. If it isn't working by then, demo locally. Live hosting is not a rubric item.
 
@@ -31,8 +31,8 @@ These are already in `AI_GUARDRAILS.md`, but double-check:
 Don't touch your dev folder. Build from a fresh clone so dev dependencies never get uploaded.
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/puihaha-membership.git puihaha-deploy
-cd puihaha-deploy
+git clone https://github.com/YOUR-USERNAME/axiom-membership.git axiom-deploy
+cd axiom-deploy
 composer install --no-dev --optimize-autoloader
 npm ci && npm run build            # creates public/build (GSAP is bundled in here)
 php artisan key:generate --show    # prints a key: copy it, you'll paste it into .env
@@ -118,7 +118,7 @@ After deploying, visit `https://YOURSITE/laravel-app/.env` in a browser. It **mu
 Create `htdocs/laravel-app/.env`:
 
 ```env
-APP_NAME="Puihaha Membership"
+APP_NAME="Axiom Membership"
 APP_ENV=production
 APP_KEY=base64:PASTE_THE_KEY_FROM_STEP_2
 APP_DEBUG=false
@@ -130,7 +130,7 @@ LOG_LEVEL=error
 DB_CONNECTION=mysql
 DB_HOST=sqlXXX.infinityfree.com
 DB_PORT=3306
-DB_DATABASE=if0_XXXXXXXX_puihaha
+DB_DATABASE=if0_XXXXXXXX_axiom_membership
 DB_USERNAME=if0_XXXXXXXX
 DB_PASSWORD=YOUR_DB_PASSWORD
 
@@ -148,7 +148,7 @@ Use `http://` in `APP_URL` until the free SSL certificate is active in the contr
 You can't run `migrate --seed` on the server, so move the finished database instead.
 
 1. Locally: `php artisan migrate:fresh --seed` (clean data, admin user, demo members).
-2. Export: `mysqldump -u root -p YOUR_LOCAL_DB > puihaha.sql` (or phpMyAdmin → Export).
+2. Export: `mysqldump -u root -p axiom_membership > axiom_membership.sql` (or phpMyAdmin → Export).
 3. Open the file and, if present, find and replace `utf8mb4_0900_ai_ci` with `utf8mb4_unicode_ci`. Delete any `CREATE DATABASE` or `USE` lines.
 4. In the InfinityFree panel, open **phpMyAdmin**, select your `if0_...` database, **Import** the file.
 5. Confirm all tables exist and the `users` table has your admin row.

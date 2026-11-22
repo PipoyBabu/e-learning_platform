@@ -1,9 +1,9 @@
-# AI Assistant Guardrails: Puihaha Membership System
+# AI Assistant Guardrails: Axiom Membership System
 
 **Read this fully before every task. These rules override convenience, speed, and cleverness.**
 
 ## Project
-Membership management and transaction processing system for the Puihaha E-Learning Platform. Laravel + MySQL + Eloquent, Breeze (Blade) auth, Tailwind, GSAP. Built by two students in one day and graded against the rubric below. `PLAN.md` holds the phases; `DESIGN.md` holds the locked visual decisions.
+Membership management and transaction processing system for the Axiom E-Learning Platform. Laravel + MySQL + Eloquent, Breeze (Blade) auth, Tailwind, GSAP. Built by two students in one day and graded against the rubric below. `PLAN.md` holds the phases; `DESIGN.md` holds the locked visual decisions.
 
 ## The rubric is the contract (100 points)
 

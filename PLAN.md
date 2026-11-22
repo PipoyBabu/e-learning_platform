@@ -1,4 +1,4 @@
-# Puihaha Membership System: Execution Plan
+# Axiom Membership System: Execution Plan
 
 **Deadline:** today (Mon 23 Nov 2026) · **Team:** 2 people, each with an AI assistant
 **Stack:** Laravel + MySQL, Breeze (Blade), Tailwind, GSAP (via Vite), simulated payment gateway
@@ -108,7 +108,7 @@ Goal: rubric rows *Laravel setup* (15) and *Database design* (10).
 Prompt:
 ```text
 Read AI_GUARDRAILS.md first. Phase 1 of PLAN.md.
-Task: scaffold the foundation for the Puihaha membership system.
+Task: scaffold the foundation for the Axiom membership system.
 1. Laravel + Breeze (Blade). MySQL .env.example filled in.
 2. Migrations, models with all relationships, and factories for: members,
    membership_categories, membership_levels, membership_transactions, payments.
@@ -273,7 +273,7 @@ Do this in Phase 0, **once**, and lock the result. Ask your AI for options, pick
 ### 5a. Design direction
 
 ```text
-I'm building the admin interface for the Puihaha E-Learning Platform
+I'm building the admin interface for the Axiom E-Learning Platform
 membership system (member records, membership levels Basic/Silver/Gold/
 Platinum, payments, receipts). Users are administrators doing repetitive
 data work. It's a student project with a one-day build and a rubric that

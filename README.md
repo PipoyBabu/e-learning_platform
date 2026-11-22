@@ -1,4 +1,4 @@
-# Puihaha E-Learning Platform
+# Axiom E-Learning Platform
 
 ## Membership Management and Transaction Processing System
 
@@ -31,7 +31,7 @@ This system manages member registration, membership categories, membership level
 
 ## Database Connection
 
-Use MySQL through Laravel migrations, models, and Eloquent ORM.
+Local development currently uses SQLite so the project can run without a separate database server. The planned MySQL database name is `axiom_membership` for environments that use MySQL.
 
 ### Suggested Tables
 
