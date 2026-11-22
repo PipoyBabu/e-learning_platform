@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Models;
+
+use Database\Factories\MemberFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Member extends Model
+{
+    /** @use HasFactory<MemberFactory> */
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'membership_number', 'first_name', 'last_name', 'email', 'phone',
+        'membership_category_id', 'membership_level_id', 'is_active', 'joined_on',
+    ];
+
+    protected function casts(): array
+    {
+        return ['is_active' => 'boolean', 'joined_on' => 'date'];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $member): void {
+            if ($member->membership_number) {
+                return;
+            }
+
+            $year = now()->year;
+            $sequence = static::withTrashed()->where('membership_number', 'like', "PUI-{$year}-%")->count() + 1;
+            $member->membership_number = sprintf('PUI-%d-%06d', $year, $sequence);
+        });
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(MembershipCategory::class, 'membership_category_id');
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(MembershipLevel::class, 'membership_level_id');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(MembershipTransaction::class);
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return trim("{$this->first_name} {$this->last_name}");
+    }
+}
