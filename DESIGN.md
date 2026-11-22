@@ -28,6 +28,8 @@
 ## Interface patterns
 
 - Dashboard cards show membership counts, payment totals, and pending work.
+- Dashboard KPI cards are supported by lightweight charts: membership activity by month and successful payments over time.
+- Charts should be server-driven and use an informative empty state when demo data is insufficient.
 - Member detail pages show level, expiry, and payment progress as understandable summaries.
 - Transactions use a visible status timeline: `Pending → Paid → Approved`.
 - Remaining balances use progress bars only as a supplement; the numeric amount is always visible.

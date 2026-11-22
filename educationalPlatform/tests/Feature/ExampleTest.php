@@ -3,5 +3,5 @@
 test('the application returns a successful response', function () {
     $response = $this->get('/');
 
-    $response->assertRedirect('/members');
+    $response->assertRedirect('/dashboard');
 });
