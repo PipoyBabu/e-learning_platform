@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,7 @@ Route::post('transactions/application', [TransactionController::class, 'storeApp
 Route::get('transactions/create/renewal', [TransactionController::class, 'createRenewal'])->name('transactions.create.renewal');
 Route::post('transactions/renewal', [TransactionController::class, 'storeRenewal'])->name('transactions.store.renewal');
 Route::get('transactions/{transaction}', [TransactionController::class, 'show'])->name('transactions.show');
+Route::get('transactions/{transaction}/receipt', [ReceiptController::class, 'show'])->name('transactions.receipt');
 Route::patch('transactions/{transaction}/approve', [TransactionController::class, 'approve'])->name('transactions.approve');
 Route::patch('transactions/{transaction}/cancel', [TransactionController::class, 'cancel'])->name('transactions.cancel');
 Route::post('transactions/{transaction}/pay', [PaymentController::class, 'initiate'])->name('transactions.pay');

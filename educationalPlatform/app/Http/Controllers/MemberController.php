@@ -41,7 +41,7 @@ class MemberController extends Controller
 
     public function show(Member $member): View
     {
-        return view('members.show', ['member' => $member->load(['category', 'level', 'transactions'])]);
+        return view('members.show', ['member' => $member->load(['category', 'level', 'transactions.payments'])]);
     }
 
     public function edit(Member $member): View

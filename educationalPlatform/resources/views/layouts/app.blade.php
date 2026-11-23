@@ -20,8 +20,8 @@
         </div>
     </nav>
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        @if (session('success')) <div class="mb-6 rounded-lg bg-emerald-50 p-4 text-emerald-800">{{ session('success') }}</div> @endif
-        @if (session('error')) <div class="mb-6 rounded-lg bg-red-50 p-4 text-red-800">{{ session('error') }}</div> @endif
+        @if (session('success')) <div data-animate="flash" class="mb-6 rounded-lg bg-emerald-50 p-4 text-emerald-800">{{ session('success') }}</div> @endif
+        @if (session('error')) <div data-animate="flash" class="mb-6 rounded-lg bg-red-50 p-4 text-red-800">{{ session('error') }}</div> @endif
         @if ($errors->any())
             <div class="mb-6 rounded-lg bg-red-50 p-4 text-red-800"><ul class="list-disc pl-5">@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
         @endif
