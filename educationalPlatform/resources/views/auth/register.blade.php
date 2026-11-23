@@ -12,7 +12,7 @@
             <div class="mb-8 text-center">
                 <p class="text-sm font-semibold uppercase tracking-[0.18em] text-indigo-700">Axiom Membership</p>
                 <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-950">Create your account</h1>
-                <p class="mt-2 text-sm text-slate-600">Create a member account using the email already registered in Axiom.</p>
+                <p class="mt-2 text-sm text-slate-600">Use an email address you can access. We’ll send you a verification link.</p>
             </div>
 
             @if ($errors->any())
@@ -36,7 +36,7 @@
                 <div>
                     <label for="email" class="mb-2 block text-sm font-semibold">Email address</label>
                     <input id="email" name="email" type="email" value="{{ old('email') }}" required class="block w-full rounded-lg border border-slate-300 px-4 py-3 text-sm outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100">
-                    <p class="mt-1 text-xs text-slate-500">This must exactly match the email in your Axiom member record.</p>
+                    <p class="mt-1 text-xs text-slate-500">Gmail and other accessible email addresses are supported.</p>
                 </div>
 
                 <div>

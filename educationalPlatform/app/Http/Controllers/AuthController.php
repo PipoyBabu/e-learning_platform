@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
 use App\Models\User;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
@@ -30,12 +29,6 @@ class AuthController extends Controller
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'confirmed', 'min:8'],
         ]);
-
-        if (! Member::where('email', $data['email'])->where('is_active', true)->exists()) {
-            return back()->withErrors([
-                'email' => 'No active member profile uses this email address. Ask an administrator to add you first.',
-            ])->withInput($request->except('password', 'password_confirmation'));
-        }
 
         $user = User::create([
             'name' => $data['name'],

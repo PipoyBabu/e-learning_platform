@@ -23,7 +23,7 @@ Route::post('logout', [AuthController::class, 'destroy'])->middleware('auth')->n
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/', fn () => redirect()->route(auth()->user()->isAdmin() ? 'dashboard' : 'member.portal'))->name('home');
-    Route::get('my-account', [MemberPortalController::class, 'index'])->name('member.portal');
+    Route::get('my-account', [MemberPortalController::class, 'index'])->middleware('verified')->name('member.portal');
     Route::get('email/verify', [AuthController::class, 'verificationNotice'])->name('verification.notice');
     Route::get('email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
     Route::post('email/verification-notification', [AuthController::class, 'sendVerification'])->middleware('throttle:6,1')->name('verification.send');
