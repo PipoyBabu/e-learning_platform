@@ -27,13 +27,13 @@
         <section class="rounded-xl bg-white p-6 shadow-sm lg:col-span-1">
             <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Member profile</p>
             <h2 class="mt-3 text-2xl font-bold">{{ $member->full_name }}</h2>
-            <p class="mt-1 text-sm text-slate-500">{{ $member->membership_number }}</p>
-            <dl class="mt-6 space-y-4 text-sm">
-                <div><dt class="text-slate-500">Email</dt><dd class="mt-1 font-medium">{{ $member->email }}</dd></div>
-                <div><dt class="text-slate-500">Phone</dt><dd class="mt-1 font-medium">{{ $member->phone ?: 'Not provided' }}</dd></div>
-                <div><dt class="text-slate-500">Category</dt><dd class="mt-1 font-medium">{{ $member->category->name }}</dd></div>
-                <div><dt class="text-slate-500">Level</dt><dd class="mt-1 font-medium">{{ $member->level->name }}</dd></div>
-                <div><dt class="text-slate-500">Status</dt><dd class="mt-1 font-medium {{ $member->is_active ? 'text-emerald-700' : 'text-red-700' }}">{{ $member->is_active ? 'Active' : 'Inactive' }}</dd></div>
+            <div class="mt-4 rounded-lg bg-slate-50 px-3 py-2"><p class="text-xs uppercase tracking-wide text-slate-500">Membership number</p><p class="mt-1 font-mono text-sm font-semibold text-slate-700">{{ $member->membership_number }}</p></div>
+            <dl class="mt-5 divide-y divide-slate-100 text-sm">
+                <div class="py-3 first:pt-0"><dt class="text-slate-500">Email</dt><dd class="mt-1 font-medium break-words">{{ $member->email }}</dd></div>
+                <div class="py-3"><dt class="text-slate-500">Phone</dt><dd class="mt-1 font-medium">{{ $member->phone ?: 'Not provided' }}</dd></div>
+                <div class="py-3"><dt class="text-slate-500">Membership category</dt><dd class="mt-1 font-medium">{{ $member->category->name }}</dd></div>
+                <div class="py-3"><dt class="text-slate-500">Membership level</dt><dd class="mt-1 font-medium">{{ $member->level->name }}</dd></div>
+                <div class="py-3 last:pb-0"><dt class="text-slate-500">Account status</dt><dd class="mt-1 font-medium {{ $member->is_active ? 'text-emerald-700' : 'text-red-700' }}">{{ $member->is_active ? 'Active' : 'Inactive' }}</dd></div>
             </dl>
         </section>
 
