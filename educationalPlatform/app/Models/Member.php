@@ -15,11 +15,17 @@ class Member extends Model
     protected $fillable = [
         'membership_number', 'first_name', 'last_name', 'email', 'phone',
         'membership_category_id', 'membership_level_id', 'is_active', 'joined_on',
+        'address', 'latitude', 'longitude',
     ];
 
     protected function casts(): array
     {
-        return ['is_active' => 'boolean', 'joined_on' => 'date'];
+        return [
+            'is_active' => 'boolean',
+            'joined_on' => 'date',
+            'latitude' => 'decimal:7',
+            'longitude' => 'decimal:7',
+        ];
     }
 
     protected static function booted(): void

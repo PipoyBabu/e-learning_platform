@@ -8,6 +8,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\WeatherController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function (): void {
@@ -37,4 +38,5 @@ Route::middleware('auth')->group(function (): void {
     Route::post('transactions/{transaction}/pay', [PaymentController::class, 'initiate'])->name('transactions.pay');
     Route::get('gateway/checkout/{gatewayReference}', [PaymentController::class, 'checkout'])->name('gateway.checkout');
     Route::post('gateway/callback', [PaymentController::class, 'callback'])->name('gateway.callback');
+    Route::get('weather', [WeatherController::class, 'show'])->middleware('throttle:30,1')->name('weather.show');
 });

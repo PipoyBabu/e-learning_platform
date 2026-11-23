@@ -9,9 +9,11 @@ use App\Http\Requests\StoreRenewalRequest;
 use App\Models\Member;
 use App\Models\MembershipLevel;
 use App\Models\MembershipTransaction;
+use App\Notifications\MembershipApplicationSubmitted;
 use App\Services\TransactionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
 
 class TransactionController extends Controller
@@ -44,7 +46,10 @@ class TransactionController extends Controller
             return back()->withInput()->with('error', $exception->getMessage());
         }
 
-        return to_route('transactions.show', $transaction)->with('success', 'Membership application created.');
+        Notification::route('mail', $transaction->member->email)
+            ->notify(new MembershipApplicationSubmitted($transaction->load('member', 'level')));
+
+        return to_route('transactions.show', $transaction)->with('success', 'Membership application created. A confirmation email was queued.');
     }
 
     public function createRenewal(): View
