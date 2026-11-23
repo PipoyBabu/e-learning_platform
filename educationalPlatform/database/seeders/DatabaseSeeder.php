@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Platinum', 'fee' => 3000, 'validity_months' => 12, 'benefits' => 'All benefits plus premium events and dedicated support.'],
         ])->map(fn (array $level) => MembershipLevel::create($level));
 
-        $members = Member::factory(12)->create([
+        $members = Member::factory(12)->sequence(...MemberLocationSeeder::locations())->create([
             'membership_category_id' => fn () => $categories->random()->id,
             'membership_level_id' => fn () => $levels->random()->id,
         ]);
