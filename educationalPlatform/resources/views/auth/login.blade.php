@@ -56,7 +56,7 @@
                 </button>
             </form>
 
-            <p class="mt-5 text-center text-xs text-slate-500">Demo access is provided through the seeded administrator account.</p>
+            <p class="mt-5 text-center text-sm text-slate-500">New member? <a href="{{ route('register') }}" class="font-semibold text-indigo-700 hover:underline">Create an account</a></p>
         </section>
     </main>
 </body>

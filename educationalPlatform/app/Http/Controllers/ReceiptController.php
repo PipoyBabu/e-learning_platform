@@ -11,6 +11,7 @@ class ReceiptController extends Controller
 {
     public function show(MembershipTransaction $transaction): View
     {
+        abort_unless(auth()->user()->isAdmin() || auth()->user()->ownsTransaction($transaction), 403, 'You may only view your own receipts.');
         abort_unless(in_array($transaction->status, [TransactionStatus::Paid, TransactionStatus::Approved], true), 403, 'A receipt is available only after full payment.');
 
         $transaction->load(['member.category', 'member.level', 'level', 'payments']);

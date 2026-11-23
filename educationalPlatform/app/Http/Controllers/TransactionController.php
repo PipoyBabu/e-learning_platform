@@ -71,6 +71,8 @@ class TransactionController extends Controller
 
     public function show(MembershipTransaction $transaction): View
     {
+        abort_unless(auth()->user()->isAdmin() || auth()->user()->ownsTransaction($transaction), 403, 'You may only view your own transactions.');
+
         return view('transactions.show', ['transaction' => $transaction->load(['member', 'level', 'payments'])]);
     }
 

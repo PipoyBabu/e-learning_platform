@@ -10,13 +10,17 @@ use App\Models\User;
 use App\Services\TransactionService;
 
 beforeEach(function (): void {
-    $this->actingAs(User::factory()->create());
     $category = MembershipCategory::factory()->create();
     $level = MembershipLevel::factory()->create(['fee' => 1000]);
     $member = Member::factory()->create([
+        'email' => 'payer@example.com',
         'membership_category_id' => $category->id,
         'membership_level_id' => $level->id,
     ]);
+    $this->actingAs(User::factory()->create([
+        'email' => $member->email,
+        'role' => 'member',
+    ]));
     $this->transaction = app(TransactionService::class)->createApplication($member, $level);
 });
 

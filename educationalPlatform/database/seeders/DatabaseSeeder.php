@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Axiom Admin',
             'email' => 'admin@axiom.test',
+            'role' => 'admin',
             'password' => 'password',
         ]);
 

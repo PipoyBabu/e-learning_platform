@@ -9,13 +9,17 @@
 <body class="min-h-screen bg-slate-50 text-slate-900">
     <nav class="border-b border-slate-200 bg-white">
         <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-            <a href="{{ route('members.index') }}" class="text-xl font-bold text-indigo-700">Axiom Membership</a>
+            <a href="{{ route(auth()->user()->isAdmin() ? 'dashboard' : 'member.portal') }}" class="text-xl font-bold text-indigo-700">Axiom Membership</a>
             <div class="flex flex-wrap items-center gap-4 text-sm font-medium">
-                <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-1 hover:bg-indigo-50 hover:text-indigo-700">Dashboard</a>
-                <a href="{{ route('members.index') }}" class="{{ request()->routeIs('members.*') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-1 hover:bg-indigo-50 hover:text-indigo-700">Members</a>
-                <a href="{{ route('categories.index') }}" class="{{ request()->routeIs('categories.*') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-1 hover:bg-indigo-50 hover:text-indigo-700">Categories</a>
-                <a href="{{ route('levels.index') }}" class="{{ request()->routeIs('levels.*') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-1 hover:bg-indigo-50 hover:text-indigo-700">Levels</a>
-                <a href="{{ route('transactions.index') }}" class="{{ request()->routeIs('transactions.*') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-1 hover:bg-indigo-50 hover:text-indigo-700">Transactions</a>
+                @if (auth()->user()->isAdmin())
+                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-1 hover:bg-indigo-50 hover:text-indigo-700">Dashboard</a>
+                    <a href="{{ route('members.index') }}" class="{{ request()->routeIs('members.*') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-1 hover:bg-indigo-50 hover:text-indigo-700">Members</a>
+                    <a href="{{ route('categories.index') }}" class="{{ request()->routeIs('categories.*') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-1 hover:bg-indigo-50 hover:text-indigo-700">Categories</a>
+                    <a href="{{ route('levels.index') }}" class="{{ request()->routeIs('levels.*') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-1 hover:bg-indigo-50 hover:text-indigo-700">Levels</a>
+                    <a href="{{ route('transactions.index') }}" class="{{ request()->routeIs('transactions.*') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-1 hover:bg-indigo-50 hover:text-indigo-700">Transactions</a>
+                @else
+                    <a href="{{ route('member.portal') }}" class="{{ request()->routeIs('member.portal') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-1 hover:bg-indigo-50 hover:text-indigo-700">My account</a>
+                @endif
                 <span class="hidden h-5 w-px bg-slate-200 sm:block"></span>
                 <span class="text-slate-500">{{ auth()->user()->name }}</span>
                 <form method="POST" action="{{ route('logout') }}">

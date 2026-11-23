@@ -22,6 +22,8 @@ class PaymentController extends Controller
 
     public function initiate(InitiatePaymentRequest $request, MembershipTransaction $transaction): RedirectResponse
     {
+        abort_unless($request->user()->ownsTransaction($transaction) && $request->user()->hasVerifiedEmail(), 403, 'Only the verified member can pay this transaction.');
+
         try {
             $amount = (float) $request->validated('amount');
             $this->transactionService->validatePayment($transaction, $amount);
@@ -38,6 +40,8 @@ class PaymentController extends Controller
         $checkout = $this->gateway->resolve($gatewayReference);
 
         abort_unless($checkout, 404);
+        $transaction = MembershipTransaction::findOrFail($checkout['transaction_id']);
+        abort_unless(auth()->user()->ownsTransaction($transaction), 403, 'Only the member can access this checkout.');
 
         return view('gateway.checkout', compact('checkout'));
     }
@@ -55,6 +59,7 @@ class PaymentController extends Controller
 
         try {
             $transaction = MembershipTransaction::findOrFail($checkout['transaction_id']);
+            abort_unless($request->user()->ownsTransaction($transaction) && $request->user()->hasVerifiedEmail(), 403, 'Only the verified member can complete this payment.');
             $status = $data['outcome'] === 'success' ? PaymentStatus::Succeeded : PaymentStatus::Failed;
             $this->transactionService->recordPayment($transaction, $checkout['amount'], $data['method'], $status, $data['gateway_reference']);
         } catch (TransactionRuleException $exception) {
