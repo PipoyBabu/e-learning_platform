@@ -28,6 +28,13 @@ it('creates an application with a fee snapshot and pending status', function ():
         ->and($transaction->reference_no)->toStartWith('TXN-');
 });
 
+it('blocks a second pending transaction for the same member', function (): void {
+    $this->service->createApplication($this->member, $this->level);
+
+    expect(fn () => $this->service->createRenewal($this->member))
+        ->toThrow(TransactionRuleException::class, 'This member already has a pending transaction.');
+});
+
 it('keeps a partial payment pending and marks a fully paid transaction paid', function (): void {
     $transaction = $this->service->createApplication($this->member, $this->level);
 
@@ -82,6 +89,7 @@ it('starts renewal at the current expiry when still valid and today when lapsed'
     expect($renewal->starts_on->toDateString())->toBe($validExpiry)
         ->and($renewal->expires_on->toDateString())->toBe(now()->parse($validExpiry)->addYear()->toDateString());
 
+    $renewal->update(['status' => TransactionStatus::Approved]);
     $this->member->transactions()->update(['expires_on' => now()->subDay()->toDateString()]);
     $lapsedRenewal = $this->service->createRenewal($this->member);
     expect($lapsedRenewal->starts_on->toDateString())->toBe(now()->toDateString());

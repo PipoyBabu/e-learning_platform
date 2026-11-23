@@ -18,6 +18,8 @@ class TransactionService
 {
     public function createApplication(Member $member, MembershipLevel $level): MembershipTransaction
     {
+        $this->ensureNoPendingTransaction($member);
+
         return MembershipTransaction::create([
             'member_id' => $member->id,
             'membership_level_id' => $level->id,
@@ -29,6 +31,7 @@ class TransactionService
 
     public function createRenewal(Member $member): MembershipTransaction
     {
+        $this->ensureNoPendingTransaction($member);
         $member->loadMissing('level');
         $level = $member->level;
         $startsOn = $member->transactions()->latest('expires_on')->value('expires_on');
@@ -86,6 +89,13 @@ class TransactionService
 
         if ($amount > $transaction->remaining_balance) {
             throw new TransactionRuleException('Payment amount cannot exceed the remaining balance.');
+        }
+    }
+
+    public function ensureNoPendingTransaction(Member $member): void
+    {
+        if ($member->transactions()->where('status', TransactionStatus::Pending)->exists()) {
+            throw new TransactionRuleException('This member already has a pending transaction. Complete or cancel it before creating another.');
         }
     }
 

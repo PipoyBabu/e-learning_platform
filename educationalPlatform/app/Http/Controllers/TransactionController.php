@@ -38,7 +38,11 @@ class TransactionController extends Controller
     public function storeApplication(StoreApplicationRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $transaction = $this->transactionService->createApplication(Member::findOrFail($data['member_id']), MembershipLevel::findOrFail($data['membership_level_id']));
+        try {
+            $transaction = $this->transactionService->createApplication(Member::findOrFail($data['member_id']), MembershipLevel::findOrFail($data['membership_level_id']));
+        } catch (TransactionRuleException $exception) {
+            return back()->withInput()->with('error', $exception->getMessage());
+        }
 
         return to_route('transactions.show', $transaction)->with('success', 'Membership application created.');
     }
@@ -51,7 +55,11 @@ class TransactionController extends Controller
     public function storeRenewal(StoreRenewalRequest $request): RedirectResponse
     {
         $member = Member::findOrFail($request->validated('member_id'));
-        $transaction = $this->transactionService->createRenewal($member);
+        try {
+            $transaction = $this->transactionService->createRenewal($member);
+        } catch (TransactionRuleException $exception) {
+            return back()->withInput()->with('error', $exception->getMessage());
+        }
 
         return to_route('transactions.show', $transaction)->with('success', 'Membership renewal created.');
     }
