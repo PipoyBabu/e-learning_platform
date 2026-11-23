@@ -5,9 +5,11 @@ use App\Enums\TransactionStatus;
 use App\Models\Member;
 use App\Models\MembershipCategory;
 use App\Models\MembershipLevel;
+use App\Models\User;
 use App\Services\TransactionService;
 
 beforeEach(function (): void {
+    $this->actingAs(User::factory()->create());
     $category = MembershipCategory::factory()->create();
     $level = MembershipLevel::factory()->create(['fee' => 1000]);
     $member = Member::factory()->create([

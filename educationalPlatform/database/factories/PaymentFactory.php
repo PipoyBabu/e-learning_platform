@@ -19,7 +19,7 @@ class PaymentFactory extends Factory
             'membership_transaction_id' => MembershipTransaction::factory(),
             'amount' => 1000,
             'status' => PaymentStatus::Succeeded,
-            'gateway_reference' => 'SIM-' . fake()->unique()->bothify('######'),
+            'gateway_reference' => 'SIM-'.fake()->unique()->bothify('######'),
             'method' => PaymentMethod::GCash,
             'paid_at' => now(),
         ];
