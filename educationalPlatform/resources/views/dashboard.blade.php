@@ -1,14 +1,53 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex flex-wrap items-end justify-between gap-4"><div><p class="font-semibold text-sky-600">Axiom learning journey</p><h1 class="mt-1 text-3xl font-bold">Dashboard</h1><p class="mt-1 text-slate-600">A quick view of members, progress, and pending work.</p></div><div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap"><a href="{{ route('transactions.create.application') }}" class="w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-center font-semibold text-white hover:bg-indigo-700 sm:w-auto">New application</a><a href="{{ route('transactions.create.renewal') }}" class="w-full rounded-lg border border-indigo-200 px-4 py-2.5 text-center font-semibold text-indigo-700 hover:bg-indigo-50 sm:w-auto">Renew membership</a></div></div>
+<div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+        <p class="font-semibold text-sky-600">Axiom learning journey</p>
+        <h1 class="mt-1 text-3xl font-bold">Dashboard</h1>
+        <p class="mt-1 text-slate-600">A quick view of members, progress, and pending work.</p>
+    </div>
+    <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+        <a href="{{ route('transactions.create.application') }}" class="w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-center font-semibold text-white hover:bg-indigo-700 sm:w-auto">New application</a>
+        <a href="{{ route('transactions.create.renewal') }}" class="w-full rounded-lg border border-indigo-200 px-4 py-2.5 text-center font-semibold text-indigo-700 hover:bg-indigo-50 sm:w-auto">Renew membership</a>
+    </div>
+</div>
 
-<div data-animate="stagger" class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><div class="rounded-xl bg-white p-5 shadow-sm"><p class="text-sm text-slate-500">Total members</p><p class="mt-2 text-3xl font-bold text-indigo-700" data-count-to="{{ $totalMembers }}">{{ $totalMembers }}</p><p class="mt-1 text-sm text-slate-500">People in the directory</p></div><div class="rounded-xl bg-white p-5 shadow-sm"><p class="text-sm text-slate-500">Active members</p><p class="mt-2 text-3xl font-bold text-sky-600" data-count-to="{{ $activeMembers }}">{{ $activeMembers }}</p><p class="mt-1 text-sm text-slate-500">Currently active</p></div><div class="rounded-xl bg-white p-5 shadow-sm"><p class="text-sm text-slate-500">Pending transactions</p><p class="mt-2 text-3xl font-bold text-amber-600" data-count-to="{{ $pendingTransactions }}">{{ $pendingTransactions }}</p><p class="mt-1 text-sm text-slate-500">Need payment or action</p></div><div class="rounded-xl bg-white p-5 shadow-sm"><p class="text-sm text-slate-500">Collected payments</p><p class="mt-2 text-3xl font-bold text-emerald-600">₱{{ number_format($totalCollected, 2) }}</p><p class="mt-1 text-sm text-slate-500">Successful payments</p></div></div>
+<div data-animate="stagger" class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="rounded-xl bg-white p-5 shadow-sm"><p class="text-sm text-slate-500">Total members</p><p class="mt-2 text-3xl font-bold text-indigo-700" data-count-to="{{ $totalMembers }}">{{ $totalMembers }}</p><p class="mt-1 text-sm text-slate-500">People in the directory</p></div>
+    <div class="rounded-xl bg-white p-5 shadow-sm"><p class="text-sm text-slate-500">Active members</p><p class="mt-2 text-3xl font-bold text-sky-600" data-count-to="{{ $activeMembers }}">{{ $activeMembers }}</p><p class="mt-1 text-sm text-slate-500">Currently active</p></div>
+    <div class="rounded-xl bg-white p-5 shadow-sm"><p class="text-sm text-slate-500">Pending transactions</p><p class="mt-2 text-3xl font-bold text-amber-600" data-count-to="{{ $pendingTransactions }}">{{ $pendingTransactions }}</p><p class="mt-1 text-sm text-slate-500">Need payment or action</p></div>
+    <div class="rounded-xl bg-white p-5 shadow-sm"><p class="text-sm text-slate-500">Collected payments</p><p class="mt-2 text-3xl font-bold text-emerald-600">₱{{ number_format($totalCollected, 2) }}</p><p class="mt-1 text-sm text-slate-500">Successful payments</p></div>
+</div>
 
 <div class="mt-8 grid gap-6 xl:grid-cols-2">
     @include('dashboard.line-chart', ['title' => 'Membership activity', 'data' => $transactionTrend])
     @include('dashboard.line-chart', ['title' => 'Successful payments', 'data' => $paymentTrend])
 </div>
 
-<div class="mt-8 rounded-xl bg-white p-6 shadow-sm"><div class="flex flex-wrap items-center justify-between gap-4"><div><h2 class="text-xl font-semibold">Recent transactions</h2><p class="mt-1 text-sm text-slate-500">Follow each member’s learning membership journey.</p></div><a href="{{ route('transactions.index') }}" class="inline-flex w-full items-center justify-center rounded-lg border border-indigo-200 px-3 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 sm:w-auto">View all transactions</a></div><div class="mt-4 divide-y">@forelse ($recentTransactions as $transaction)<a href="{{ route('transactions.show', $transaction) }}" class="flex flex-wrap items-center justify-between gap-3 py-4 hover:bg-slate-50"><div><p class="font-semibold text-indigo-700">{{ $transaction->member->full_name }}</p><p class="font-mono text-xs text-slate-500">{{ $transaction->reference_no }} · {{ $transaction->type->value }}</p></div><div class="flex items-center gap-4"><span class="rounded-full px-2.5 py-1 text-xs font-semibold {{ $transaction->status->badgeClasses() }}">{{ $transaction->status->value }}</span><span class="font-semibold">₱{{ number_format($transaction->amount_due, 2) }}</span></div></a>@empty<p class="py-6 text-slate-500">No transactions yet. Create the first membership application.</p>@endforelse</div></div>
+<div class="mt-8 rounded-xl bg-white p-6 shadow-sm">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+            <h2 class="text-xl font-semibold">Recent transactions</h2>
+            <p class="mt-1 text-sm text-slate-500">Follow each member’s learning membership journey.</p>
+        </div>
+        <a href="{{ route('transactions.index') }}" class="inline-flex w-full items-center justify-center rounded-lg border border-indigo-200 px-3 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 sm:w-auto">View all transactions</a>
+    </div>
+    <div class="mt-4 divide-y">
+        @forelse ($recentTransactions as $transaction)
+            <a href="{{ route('transactions.show', $transaction) }}" class="flex flex-wrap items-center justify-between gap-3 py-4 hover:bg-slate-50">
+                <div>
+                    <p class="font-semibold text-indigo-700">{{ $transaction->member->full_name }}</p>
+                    <p class="font-mono text-xs text-slate-500">{{ $transaction->reference_no }} · {{ $transaction->type->value }}</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="rounded-full px-2.5 py-1 text-xs font-semibold {{ $transaction->status->badgeClasses() }}">{{ $transaction->status->value }}</span>
+                    <span class="font-semibold">₱{{ number_format($transaction->amount_due, 2) }}</span>
+                </div>
+            </a>
+        @empty
+            <p class="py-6 text-slate-500">No transactions yet. Create the first membership application.</p>
+        @endforelse
+    </div>
+</div>
 @endsection
