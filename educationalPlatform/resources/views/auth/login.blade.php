@@ -11,8 +11,8 @@
         <section class="w-full max-w-md">
             <div class="mb-8 text-center">
                 <p class="text-sm font-semibold uppercase tracking-[0.18em] text-indigo-700">Axiom Membership</p>
-                <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-950">Welcome back</h1>
-                <p class="mt-2 text-sm text-slate-600">Sign in to manage the learning membership directory.</p>
+                <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-950">Sign in to your account</h1>
+                <p class="mt-2 text-sm text-slate-600">Access your membership account or administrator workspace.</p>
             </div>
 
             @if (session('success'))
@@ -36,7 +36,7 @@
                     <label for="email" class="mb-2 block text-sm font-semibold text-slate-800">Email address</label>
                     <input id="email" name="email" type="email" value="{{ old('email') }}" autocomplete="email" required autofocus
                         class="block w-full rounded-lg border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
-                        placeholder="admin@axiom.test">
+                        placeholder="you@example.com">
                 </div>
 
                 <div>

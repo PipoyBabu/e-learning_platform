@@ -5,7 +5,7 @@ use App\Models\User;
 it('shows the login page to guests', function (): void {
     $this->get(route('login'))
         ->assertOk()
-        ->assertSee('Welcome back')
+        ->assertSee('Sign in to your account')
         ->assertSee('Sign in');
 });
 
