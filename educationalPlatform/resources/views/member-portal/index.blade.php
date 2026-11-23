@@ -53,7 +53,7 @@
                             <td class="whitespace-nowrap py-4 pr-4">{{ $transaction->level->name }}</td>
                             <td class="whitespace-nowrap py-4 pr-4"><span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold {{ $transaction->status->badgeClasses() }}">{{ $transaction->status->value }}</span></td>
                             <td class="whitespace-nowrap py-4 pr-4">₱{{ number_format($transaction->remaining_balance, 2) }}</td>
-                            <td class="whitespace-nowrap py-4 text-right"><a href="{{ route('transactions.show', $transaction) }}" class="font-semibold text-indigo-700 hover:underline">View</a></td>
+                            <td class="whitespace-nowrap py-4 text-right"><a href="{{ route('transactions.show', $transaction) }}" class="font-semibold text-indigo-700 hover:underline">View details</a></td>
                         </tr>
                     @empty
                         <tr><td colspan="5" class="px-4 py-10 text-center"><p class="font-semibold text-slate-700">No membership activity yet.</p><p class="mt-1 text-sm text-slate-500">Your administrator can create an application or renewal for your account.</p></td></tr>
