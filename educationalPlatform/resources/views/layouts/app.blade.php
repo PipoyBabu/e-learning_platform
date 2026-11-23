@@ -27,6 +27,7 @@
                         @else
                             <a href="{{ route('member.portal') }}" class="{{ request()->routeIs('member.portal') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-2 hover:bg-indigo-50 hover:text-indigo-700">My account</a>
                         @endif
+                        <a href="{{ route('business.location') }}" class="{{ request()->routeIs('business.location') ? 'text-indigo-700' : 'text-slate-600' }} rounded-md px-2 py-2 hover:bg-indigo-50 hover:text-indigo-700">Location</a>
                         <span class="hidden h-5 w-px bg-slate-200 lg:block"></span>
                         <span class="px-2 py-2 text-slate-500 lg:px-0 lg:py-1">{{ auth()->user()->name }}</span>
                         <form method="POST" action="{{ route('logout') }}">

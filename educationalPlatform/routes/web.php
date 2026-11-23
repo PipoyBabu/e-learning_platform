@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BusinessLocationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LevelController;
@@ -23,6 +24,7 @@ Route::post('logout', [AuthController::class, 'destroy'])->middleware('auth')->n
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/', fn () => redirect()->route(auth()->user()->isAdmin() ? 'dashboard' : 'member.portal'))->name('home');
+    Route::get('location', [BusinessLocationController::class, 'show'])->name('business.location');
     Route::middleware(['verified', 'member'])->group(function (): void {
         Route::get('my-account', [MemberPortalController::class, 'index'])->name('member.portal');
         Route::get('my-account/edit', [MemberPortalController::class, 'editAccount'])->name('member.account.edit');

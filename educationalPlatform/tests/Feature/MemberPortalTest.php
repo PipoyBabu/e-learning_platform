@@ -85,3 +85,13 @@ it('blocks administrators from member account settings', function (): void {
         ->get(route('member.account.edit'))
         ->assertForbidden();
 });
+
+it('shows the business location to authenticated users', function (): void {
+    $user = User::factory()->create(['role' => 'member']);
+
+    $this->actingAs($user)
+        ->get(route('business.location'))
+        ->assertOk()
+        ->assertSee('Far Eastern University Institute of Technology')
+        ->assertSee('P. Paredes St., Sampaloc, Manila, Philippines 1008');
+});
