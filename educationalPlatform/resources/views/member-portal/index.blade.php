@@ -42,17 +42,18 @@
                 <div><p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Membership activity</p><h2 class="mt-1 text-2xl font-bold">My transactions</h2></div>
                 <span class="text-sm text-slate-500">Your administrator manages applications.</span>
             </div>
-            <div class="mt-6 overflow-x-auto">
+            <p class="mt-6 text-xs text-slate-500 sm:hidden">Swipe horizontally to view all transaction details.</p>
+            <div class="mt-2 overflow-x-auto">
                 <table class="min-w-full text-left text-sm">
-                    <thead class="border-b border-slate-200 text-slate-500"><tr><th class="pb-3 pr-4">Reference</th><th class="pb-3 pr-4">Level</th><th class="pb-3 pr-4">Status</th><th class="pb-3 pr-4">Balance</th><th class="pb-3 text-right">Action</th></tr></thead>
+                    <thead class="border-b border-slate-200 text-slate-500"><tr><th class="whitespace-nowrap pb-3 pr-4">Reference</th><th class="whitespace-nowrap pb-3 pr-4">Level</th><th class="whitespace-nowrap pb-3 pr-4">Status</th><th class="whitespace-nowrap pb-3 pr-4">Balance</th><th class="whitespace-nowrap pb-3 text-right">Action</th></tr></thead>
                     <tbody class="divide-y divide-slate-100">
                     @forelse ($member->transactions as $transaction)
                         <tr>
-                            <td class="py-4 pr-4 font-mono text-xs">{{ $transaction->reference_no }}</td>
-                            <td class="py-4 pr-4">{{ $transaction->level->name }}</td>
-                            <td class="py-4 pr-4"><span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold {{ $transaction->status->badgeClasses() }}">{{ $transaction->status->value }}</span></td>
-                            <td class="py-4 pr-4">₱{{ number_format($transaction->remaining_balance, 2) }}</td>
-                            <td class="py-4 text-right"><a href="{{ route('transactions.show', $transaction) }}" class="font-semibold text-indigo-700 hover:underline">View</a></td>
+                            <td class="whitespace-nowrap py-4 pr-4 font-mono text-xs">{{ $transaction->reference_no }}</td>
+                            <td class="whitespace-nowrap py-4 pr-4">{{ $transaction->level->name }}</td>
+                            <td class="whitespace-nowrap py-4 pr-4"><span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold {{ $transaction->status->badgeClasses() }}">{{ $transaction->status->value }}</span></td>
+                            <td class="whitespace-nowrap py-4 pr-4">₱{{ number_format($transaction->remaining_balance, 2) }}</td>
+                            <td class="whitespace-nowrap py-4 text-right"><a href="{{ route('transactions.show', $transaction) }}" class="font-semibold text-indigo-700 hover:underline">View</a></td>
                         </tr>
                     @empty
                         <tr><td colspan="5" class="py-8 text-center text-slate-500">You have no membership transactions yet.</td></tr>
