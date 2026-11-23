@@ -50,7 +50,7 @@
                         <tr>
                             <td class="py-4 pr-4 font-mono text-xs">{{ $transaction->reference_no }}</td>
                             <td class="py-4 pr-4">{{ $transaction->level->name }}</td>
-                            <td class="py-4 pr-4"><span class="font-semibold">{{ $transaction->status->value }}</span></td>
+                            <td class="py-4 pr-4"><span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold {{ $transaction->status->badgeClasses() }}">{{ $transaction->status->value }}</span></td>
                             <td class="py-4 pr-4">₱{{ number_format($transaction->remaining_balance, 2) }}</td>
                             <td class="py-4 text-right"><a href="{{ route('transactions.show', $transaction) }}" class="font-semibold text-indigo-700 hover:underline">View</a></td>
                         </tr>

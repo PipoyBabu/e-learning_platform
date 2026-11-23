@@ -23,7 +23,7 @@
     <main class="receipt-sheet mx-auto my-6 max-w-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
         <header class="flex flex-wrap items-start justify-between gap-6 border-b-2 border-indigo-600 pb-6">
             <div><p class="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">Axiom Membership</p><h1 class="mt-2 text-3xl font-bold">Payment receipt</h1><p class="mt-2 text-sm text-slate-500">Learning membership record</p></div>
-            <div class="text-left sm:text-right"><p class="text-xs uppercase tracking-wide text-slate-500">Reference number</p><p class="mt-1 font-mono text-sm font-semibold">{{ $transaction->reference_no }}</p><span class="mt-3 inline-flex border border-emerald-300 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">{{ $transaction->status->value }}</span></div>
+            <div class="text-left sm:text-right"><p class="text-xs uppercase tracking-wide text-slate-500">Reference number</p><p class="mt-1 font-mono text-sm font-semibold">{{ $transaction->reference_no }}</p><span class="mt-3 inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $transaction->status->badgeClasses() }}">{{ $transaction->status->value }}</span></div>
         </header>
 
         <section class="mt-8 grid gap-6 sm:grid-cols-2">
