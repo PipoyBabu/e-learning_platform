@@ -25,6 +25,7 @@ COPY docker/php/www-overrides.conf /usr/local/etc/php-fpm.d/zz-overrides.conf
 COPY docker/nginx/nginx-site.conf /etc/nginx/http.d/default.conf
 COPY docker/supervisor/supervisord.conf /etc/supervisord.conf
 COPY docker/start.sh /start.sh
+RUN chmod +x /start.sh
 
 WORKDIR /var/www/html
 COPY . .
