@@ -3,6 +3,8 @@ FROM node:22-alpine AS assets
 WORKDIR /build
 COPY package.json package-lock.json ./
 RUN npm ci
+COPY artisan ./
+COPY public ./public
 COPY resources ./resources
 COPY vite.config.js ./
 RUN npm run build
