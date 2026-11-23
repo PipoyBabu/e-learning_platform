@@ -60,6 +60,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->role === 'admin';
     }
 
+    public function isMember(): bool
+    {
+        return $this->role === 'member';
+    }
+
     public function ownsTransaction(MembershipTransaction $transaction): bool
     {
         return ! $this->isAdmin() && $this->member()->whereKey($transaction->member_id)->exists();

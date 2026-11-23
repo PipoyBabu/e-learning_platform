@@ -51,4 +51,4 @@
     @endif
 </div>
 
-<p class="mt-6 text-sm text-slate-500">Membership number is generated automatically.</p><button class="rounded-lg bg-indigo-600 px-4 py-2.5 font-semibold text-white hover:bg-indigo-700">{{ $buttonText }}</button>
+<p class="mt-6 text-sm text-slate-500">Membership number is generated automatically. This form creates a membership record; users create their own accounts through registration.</p><button class="rounded-lg bg-indigo-600 px-4 py-2.5 font-semibold text-white hover:bg-indigo-700">{{ $buttonText }}</button>

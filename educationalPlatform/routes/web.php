@@ -23,7 +23,14 @@ Route::post('logout', [AuthController::class, 'destroy'])->middleware('auth')->n
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/', fn () => redirect()->route(auth()->user()->isAdmin() ? 'dashboard' : 'member.portal'))->name('home');
-    Route::get('my-account', [MemberPortalController::class, 'index'])->middleware('verified')->name('member.portal');
+    Route::middleware(['verified', 'member'])->group(function (): void {
+        Route::get('my-account', [MemberPortalController::class, 'index'])->name('member.portal');
+        Route::get('my-account/edit', [MemberPortalController::class, 'editAccount'])->name('member.account.edit');
+        Route::patch('my-account', [MemberPortalController::class, 'updateAccount'])->name('member.account.update');
+        Route::delete('my-account', [MemberPortalController::class, 'destroyAccount'])->name('member.account.destroy');
+        Route::get('my-account/apply', [MemberPortalController::class, 'createApplication'])->name('member.application.create');
+        Route::post('my-account/apply', [MemberPortalController::class, 'storeApplication'])->name('member.application.store');
+    });
     Route::get('email/verify', [AuthController::class, 'verificationNotice'])->name('verification.notice');
     Route::get('email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
     Route::post('email/verification-notification', [AuthController::class, 'sendVerification'])->middleware('throttle:6,1')->name('verification.send');

@@ -7,7 +7,10 @@
         <h1 class="mt-1 text-3xl font-bold">My account</h1>
         <p class="mt-2 text-slate-600">View your membership, applications, payments, and receipts in one place.</p>
     </div>
-    <span class="text-sm text-slate-500">Signed in as {{ auth()->user()->email }}</span>
+    <div class="flex flex-wrap items-center gap-3 text-sm">
+        <span class="text-slate-500">Signed in as {{ auth()->user()->email }}</span>
+        <a href="{{ route('member.account.edit') }}" class="font-semibold text-indigo-700 hover:underline">Account settings</a>
+    </div>
 </div>
 
 @if (! auth()->user()->hasVerifiedEmail())
@@ -18,9 +21,16 @@
 @endif
 
 @if (! $member)
-    <div class="mt-8 max-w-2xl rounded-xl border border-amber-200 bg-amber-50 p-6 text-amber-900">
-        <h2 class="text-lg font-semibold">Your member profile is not linked yet.</h2>
-        <p class="mt-2 text-sm">Ask an administrator to create or update a member record using this account email address.</p>
+    <div class="mt-8 rounded-xl border border-indigo-200 bg-indigo-50 p-6 text-indigo-950">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+            <div><h2 class="text-lg font-semibold">Choose a membership offer</h2><p class="mt-2 max-w-2xl text-sm text-indigo-900">Your email is verified. Choose a level below to start your membership application without waiting for an administrator.</p></div>
+            <a href="{{ route('member.application.create') }}" class="inline-flex rounded-lg bg-indigo-600 px-4 py-2.5 font-semibold text-white hover:bg-indigo-700">Apply now</a>
+        </div>
+        <div class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            @foreach ($levels as $level)
+                <div class="rounded-lg bg-white p-4 shadow-sm"><p class="font-semibold">{{ $level->name }}</p><p class="mt-1 text-xl font-bold text-indigo-700">₱{{ number_format($level->fee, 2) }}</p><p class="mt-1 text-xs text-slate-500">{{ $level->validity_months }} months</p></div>
+            @endforeach
+        </div>
     </div>
 @else
     <div class="mt-8 grid gap-6 lg:grid-cols-3">

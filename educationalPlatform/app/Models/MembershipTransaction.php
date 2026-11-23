@@ -39,8 +39,14 @@ class MembershipTransaction extends Model
             }
 
             $date = now()->format('Ymd');
-            $sequence = static::where('reference_no', 'like', "TXN-{$date}-%")->count() + 1;
-            $transaction->reference_no = sprintf('TXN-%s-%04d', $date, $sequence);
+            $sequence = 1;
+
+            do {
+                $reference = sprintf('TXN-%s-%04d', $date, $sequence);
+                $sequence++;
+            } while (static::where('reference_no', $reference)->exists());
+
+            $transaction->reference_no = $reference;
         });
     }
 

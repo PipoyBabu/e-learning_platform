@@ -36,7 +36,7 @@ class MemberController extends Controller
     {
         $member = Member::create($request->validated());
 
-        return to_route('members.show', $member)->with('success', 'Member created successfully.');
+        return to_route('members.show', $member)->with('success', 'Member profile created successfully.');
     }
 
     public function show(Member $member): View

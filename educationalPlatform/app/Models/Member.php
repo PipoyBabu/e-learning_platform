@@ -36,8 +36,14 @@ class Member extends Model
             }
 
             $year = now()->year;
-            $sequence = static::withTrashed()->where('membership_number', 'like', "PUI-{$year}-%")->count() + 1;
-            $member->membership_number = sprintf('PUI-%d-%06d', $year, $sequence);
+            $sequence = 1;
+
+            do {
+                $membershipNumber = sprintf('PUI-%d-%06d', $year, $sequence);
+                $sequence++;
+            } while (static::withTrashed()->where('membership_number', $membershipNumber)->exists());
+
+            $member->membership_number = $membershipNumber;
         });
     }
 
