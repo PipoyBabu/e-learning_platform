@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,6 @@ Route::post('transactions/renewal', [TransactionController::class, 'storeRenewal
 Route::get('transactions/{transaction}', [TransactionController::class, 'show'])->name('transactions.show');
 Route::patch('transactions/{transaction}/approve', [TransactionController::class, 'approve'])->name('transactions.approve');
 Route::patch('transactions/{transaction}/cancel', [TransactionController::class, 'cancel'])->name('transactions.cancel');
+Route::post('transactions/{transaction}/pay', [PaymentController::class, 'initiate'])->name('transactions.pay');
+Route::get('gateway/checkout/{gatewayReference}', [PaymentController::class, 'checkout'])->name('gateway.checkout');
+Route::post('gateway/callback', [PaymentController::class, 'callback'])->name('gateway.callback');

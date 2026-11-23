@@ -56,17 +56,7 @@ class TransactionService
             $transaction->refresh();
             $amount = round($amount, 2);
 
-            if ($amount <= 0) {
-                throw new TransactionRuleException('Payment amount must be greater than zero.');
-            }
-
-            if (in_array($transaction->status, [TransactionStatus::Cancelled, TransactionStatus::Paid, TransactionStatus::Approved], true)) {
-                throw new TransactionRuleException('This transaction is not accepting payments.');
-            }
-
-            if ($amount > $transaction->remaining_balance) {
-                throw new TransactionRuleException('Payment amount cannot exceed the remaining balance.');
-            }
+            $this->validatePayment($transaction, $amount);
 
             $payment = $transaction->payments()->create([
                 'amount' => $amount,
@@ -82,6 +72,21 @@ class TransactionService
 
             return $payment;
         });
+    }
+
+    public function validatePayment(MembershipTransaction $transaction, float $amount): void
+    {
+        if ($amount <= 0) {
+            throw new TransactionRuleException('Payment amount must be greater than zero.');
+        }
+
+        if (in_array($transaction->status, [TransactionStatus::Cancelled, TransactionStatus::Paid, TransactionStatus::Approved], true)) {
+            throw new TransactionRuleException('This transaction is not accepting payments.');
+        }
+
+        if ($amount > $transaction->remaining_balance) {
+            throw new TransactionRuleException('Payment amount cannot exceed the remaining balance.');
+        }
     }
 
     public function approve(MembershipTransaction $transaction): MembershipTransaction
