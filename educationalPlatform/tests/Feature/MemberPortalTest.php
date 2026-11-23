@@ -12,7 +12,8 @@ it('shows the signed in member their portal', function (): void {
         ->assertOk()
         ->assertSee('My account')
         ->assertSee($member->membership_number)
-        ->assertSee($member->full_name);
+        ->assertSee($member->full_name)
+        ->assertSee('No membership activity yet.');
 });
 
 it('explains when the account has no linked member profile', function (): void {

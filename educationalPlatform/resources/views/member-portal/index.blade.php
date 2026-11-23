@@ -56,7 +56,7 @@
                             <td class="whitespace-nowrap py-4 text-right"><a href="{{ route('transactions.show', $transaction) }}" class="font-semibold text-indigo-700 hover:underline">View</a></td>
                         </tr>
                     @empty
-                        <tr><td colspan="5" class="py-8 text-center text-slate-500">You have no membership transactions yet.</td></tr>
+                        <tr><td colspan="5" class="px-4 py-10 text-center"><p class="font-semibold text-slate-700">No membership activity yet.</p><p class="mt-1 text-sm text-slate-500">Your administrator can create an application or renewal for your account.</p></td></tr>
                     @endforelse
                     </tbody>
                 </table>
